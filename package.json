@@ -1,0 +1,52 @@
+{
+  "dependencies": {
+    "@rudderstack/rudder-sdk-node": "^1.1.4",
+    "accesscontrol": "^2.2.1",
+    "aws-sdk": "^2.1272.0",
+    "axios": "^1.3.4",
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.1",
+    "buffer": "^6.0.3",
+    "cors": "^2.8.5",
+    "dayjs": "^1.11.7",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
+    "fs": "^0.0.1-security",
+    "helmet": "^6.0.1",
+    "joi": "^17.7.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.4",
+    "multer": "^1.4.5-lts.1",
+    "multer-s3": "^3.0.1",
+    "mysql2": "^2.3.3",
+    "node-webcam": "^0.8.1",
+    "nodemailer": "^6.9.1",
+    "nodemon": "^2.0.20",
+    "passport-jwt": "^4.0.0",
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
+    "redis": "^4.6.4",
+    "sequelize": "^4.44.4",
+    "uuid": "^9.0.0",
+    "uuidv4": "^6.2.13"
+  },
+  "name": "visitor",
+  "version": "1.0.0",
+  "description": "Check-in log",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "start:dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aellacredit/visitors-service.git"
+  },
+  "author": "Stephen Oyeyemi",
+  "license": "ISC",
+  "devDependencies": {
+    "sequelize-cli": "^6.6.0"
+  }
+}
