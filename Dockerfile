@@ -4,7 +4,7 @@ FROM node:16-alpine
 # set the default NODE_ENV to production
 # for dev/test build with: docker build --build-arg NODE=development .
 # and the testing npms will be included
-ARG NODE=production
+ARG NODE=development
 ENV NODE_ENV ${NODE}
 RUN mkdir /app && chown -R node:node /app
 # copy package info early to install npms and delete npm command
