@@ -10,9 +10,8 @@ module.exports = {
         type: Sequelize.UUIDV4
       },
       device_id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        // allowNull: false,
+        type: Sequelize.UUIDV4,
+        allowNull: false,
       },
       admin_id: {
         type: Sequelize.UUIDV4,
