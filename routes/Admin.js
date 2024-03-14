@@ -27,7 +27,7 @@ router.post('/signup', authentication, verifyRoles(roles_list[0]), async (req, r
    const admin = await Admin.findOne({
       where: {email: email},
       defaults: { 
-         admin_id: uuidv4,
+         admin_id: admin_id,
          first_name: first_name,
          last_name: last_name,
          role: role,
@@ -67,12 +67,12 @@ router.post('/signup', authentication, verifyRoles(roles_list[0]), async (req, r
    };
    await transporter.sendMail(mailOptions);
       console.log('Profile created and Email sent');
-      return res.status(200).send('Awesome! \nUser: '+ email + ' has been created successfully.');
+      return res.status(200).send(`Awesome! User: ${email} has been created successfully.`);
    
    }catch(err){
       console.log(err)
       return res.status(500).json({
-         message: "There's an error!", err
+         message: "There's an error!", Error: err
       })
    } 
    
@@ -118,7 +118,7 @@ router.get('/all-admin', authentication,  async (req, res) =>{
       return res.status(500).json({error: err.message, })
    }
 });
-// Get one admin
+
 router.get('/:email', authentication, verifyRoles(roles_list[0]), async (req, res) =>{
    const email = req.params.email
    try {
