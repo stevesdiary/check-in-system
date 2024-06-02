@@ -17,39 +17,36 @@ const nodemailer = require('nodemailer');
 
 router.post('/signup', authentication, verifyRoles(roles_list[0]), async (req, res) => {
    const admin_id = uuidv4()
-   const email = req.body.email;
-   const first_name = req.body.first_name;
-   const last_name = req.body.last_name;
-   const role = req.body.role;
-   const password = req.body.password;
+   const { first_name, last_name, email, password, confirmPassword, role } = req.body;
+
    const hashed = await bcrypt.hash(password, saltRounds)
 
    const admin = await Admin.findOne({
       where: {email: email},
-      defaults: { 
-         admin_id: admin_id,
-         first_name: first_name,
-         last_name: last_name,
-         role: role,
-         password: hashed,
-      }
+      // defaults: { 
+      //    admin_id: admin_id,
+      //    first_name: first_name,
+      //    last_name: last_name,
+      //    role: role,
+      //    password: hashed,
+      // }
    }) 
    try{
       if (admin){
          console.log('User already exists')
          return res.status(400).send('User ' + email + ' already exists.');
       }
+      if(password !== confirmPassword){
+         return res.status(403).send("Password do not match")
+      }
       const newAdmin = await Admin.create({
-      admin_id : admin_id,
-      first_name : first_name,
-      last_name : last_name,
-      email : email,
+      admin_id,
+      first_name,
+      last_name,
+      email,
       password : hashed,
       role : role
    });
-   const payload = {
-      email,
-   };
    
    const transporter = nodemailer.createTransport({
       service: 'gmail',
