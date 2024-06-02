@@ -50,7 +50,6 @@ router.delete('/delete/', authentication, async (req, res) => {
          await Visitor.destroy({ where: { 
             
          } })
-         // console.log("Visitor profile deleted successfully")
          return res.status(200).send({
             statusCode: 200,
             message: "Visitor profiles has been deleted successfully"
