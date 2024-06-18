@@ -15,7 +15,7 @@ const roles_list =require('../config/roles_list');
 const verifyRoles = require('../middleware/verifyRoles');
 const nodemailer = require('nodemailer');
 
-router.post('/signup', authentication, verifyRoles(roles_list[0]), async (req, res) => {
+router.post('/signup', async (req, res) => {
    const admin_id = uuidv4()
    const { first_name, last_name, email, password, confirmPassword, role } = req.body;
 
