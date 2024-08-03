@@ -19,8 +19,6 @@ router.post('/signup', async (req, res) => {
    const admin_id = uuidv4()
    const { first_name, last_name, email, password, confirmPassword, role } = req.body;
 
-   const hashed = await bcrypt.hash(password, saltRounds)
-
    const admin = await Admin.findOne({
       where: {email: email},
       // defaults: { 
@@ -31,10 +29,12 @@ router.post('/signup', async (req, res) => {
       //    password: hashed,
       // }
    }) 
+   const hashed = await bcrypt.hash(password, saltRounds)
    try{
+
       if (admin){
          console.log('User already exists')
-         return res.status(400).send('User ' + email + ' already exists.');
+         return res.status(400).send(`User ${admin.first_name} already exists, log in with email and password.`);
       }
       if(password !== confirmPassword){
          return res.status(403).send("Password do not match")
@@ -65,14 +65,12 @@ router.post('/signup', async (req, res) => {
    await transporter.sendMail(mailOptions);
       console.log('Profile created and Email sent');
       return res.status(200).send(`Awesome! User: ${email} has been created successfully.`);
-   
    }catch(err){
       console.log(err)
       return res.status(500).json({
          message: "There's an error!", Error: err
-      })
-   } 
-   
+      });
+   }
 })
 
 // Get all admin

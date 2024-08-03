@@ -14,7 +14,6 @@ const secret = process.env.JWT_SECRET;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Create visitor record
 router.post("/", authentication, async (req, res) => {
    const devices = req.body.devices;
    let token = req.headers.authorization;
@@ -39,7 +38,6 @@ router.post("/", authentication, async (req, res) => {
    try {
       const result = await Visitor.create(newVisitor);
    } catch (err) {
-      // console.log("Unable to add data, an error occoured: " + err)
       return res.status(500).send({
          statusCode: 500,
          message: "An error has occured, unable to create record.",
@@ -76,11 +74,7 @@ router.post("/", authentication, async (req, res) => {
                return res.send({
                   statusCode: 201,
                   message:
-                     "Records for " +
-                     first_name +
-                     " " +
-                     last_name +
-                     " have been created successfully!",
+                     `Records for ${first_name} ${last_name} have been created successfully!`,
                   devices: null,
                   visitor_id: visitor_id,
                });
@@ -91,11 +85,7 @@ router.post("/", authentication, async (req, res) => {
             return res.status(201).send({
                statusCode: 201,
                message:
-                  "Records for " +
-                  first_name +
-                  " " +
-                  last_name +
-                  " have been created successfully!",
+                 `Records for ${first_name} ${last_name} have been created successfully!`,
                visitor_id: visitor_id,
             });
          });
@@ -103,7 +93,7 @@ router.post("/", authentication, async (req, res) => {
          console.log(err);
          return res
             .status(500)
-            .send({ error: "Something went wrong " + err.message });
+            .send({ message: "Something went wrong ", error: err.message });
       }
    }
 });
