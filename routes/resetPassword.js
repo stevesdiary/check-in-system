@@ -15,7 +15,7 @@ router.put('/:token', async (req, res) => {
       console.log({tokenDecoded:decoded})
    
       const decodedEmail = decoded?.email;
-      console.log("Here are the decoded details " ,decodedEmail, decoded, token)
+      // console.log("Here are the decoded details ", decodedEmail, decoded, token)
       
       if (!decodedEmail) {
          return res.status(400).send({
