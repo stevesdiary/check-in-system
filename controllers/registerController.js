@@ -10,8 +10,6 @@ app.use(express.urlencoded({ extended: true }));
 const bcrypt = require('bcryptjs');
 const saltRounds = bcrypt.genSaltSync(11);
 
-//Create admin
-
 router.post('/', async (req, res) => {
    const admin_id = uuidv4()
    const email = req.body.email;

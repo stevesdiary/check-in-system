@@ -43,11 +43,10 @@ visitorController = {
             const gadget_type = devices[i].gadget_type;
             const product_name = devices[i].product_name;
             const serial_number = devices[i].serial_number;
-
             if (
-                gadget_type.length > 1 ||
-                product_name.length > 1 ||
-                serial_number.length > 1
+              gadget_type.length > 1 ||
+              product_name.length > 1 ||
+              serial_number.length > 1
             ) {
                 const device_id = uuidv4();
                 const visitor_id = newVisitor.visitor_id;
@@ -65,19 +64,18 @@ visitorController = {
                 return res.send({
                   statusCode: 201,
                   message:
-                      `Records for ${first_name} ${last_name} have been created successfully!`,
+                    `Records for ${first_name} ${last_name} have been created successfully!`,
                   devices: null,
                   visitor_id: visitor_id,
                 });
-            }
+              }
           }
           const result = await Device.bulkCreate(req.body.devices).then(() => {
-            // console.log("Device created");
             return res.status(201).send({
-                statusCode: 201,
-                message:
-                  `Records for ${first_name} ${last_name} have been created successfully!`,
-                visitor_id: visitor_id,
+              statusCode: 201,
+              message:
+                `Records for ${first_name} ${last_name} have been created successfully!`,
+              visitor_id: visitor_id,
             });
           });
       } catch (err) {
@@ -97,18 +95,18 @@ visitorController = {
           name_purpose_search.push(
              {
                 [Op.or]: [
-                   { first_name: { [Op.like]: `%${search}%` } },
-                   { last_name: { [Op.like]: `%${search}%` } },
-                   { purpose: { [Op.like]: `%${search}%` } }
+                  { first_name: { [Op.like]: `%${search}%` } },
+                  { last_name: { [Op.like]: `%${search}%` } },
+                  { purpose: { [Op.like]: `%${search}%` } }
                 ]
-             },
+            },
           )
        }
        const count = await Visitor.count({
           where: {
-             departure: { [Op.eq]: null },
-          [Op.and]:  [
-             ...name_purpose_search
+            departure: { [Op.eq]: null },
+          [Op.and]: [
+            ...name_purpose_search
           ],
           }
        });
@@ -125,18 +123,18 @@ visitorController = {
        
        let visitor = await Visitor.findAll({
           where: {
-             departure: { [Op.eq]: null },
+            departure: { [Op.eq]: null },
           [Op.and]:  [
-             ...name_purpose_search
+            ...name_purpose_search
           ],
           },
           include: [{
-             model: Device
+            model: Device
           }],
           page: { [Op.eq]: `${page}` },
           order: [
-             [Sequelize.fn('date', Sequelize.col('date')), 'DESC'],
-             [Sequelize.fn('time', Sequelize.col('arrival')), 'DESC']            
+            [Sequelize.fn('date', Sequelize.col('date')), 'DESC'],
+            [Sequelize.fn('time', Sequelize.col('arrival')), 'DESC']            
           ],
        })
        if (page) {
@@ -157,12 +155,12 @@ visitorController = {
  
        }if (count === 0){
           return res.status(200).send({
-             message: 'No record found for this request',
+            message: 'No record found for this request',
           })
        }
     } catch (err) {
-       console.log(err)
-       return res.status(500).send({ message: err.message })
+      console.log(err)
+      return res.status(500).send({ message: err.message })
     }
  },
 
