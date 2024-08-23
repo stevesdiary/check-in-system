@@ -2,7 +2,7 @@ const { Admin } = require('../models');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-async (req, res) =>{
+const loginController = async (req, res) =>{
 	const { email, password} = req.body;
 	const userEmail = await Admin.findOne({where: {email: email}}).catch((err) => {
 		 console.log('Errror: ', err);
@@ -10,12 +10,12 @@ async (req, res) =>{
 
 	if(!userEmail)
 		 // console.log('User not found: ', userEmail);
-		 return res.status(404).send({ Message: 'Email not found!'});
+		return res.status(404).send({ Message: 'Email not found!'});
 	
 	const match = await bcrypt.compare(password, userEmail.password);
 	// console.log(userEmail.password, match, password);
 	if (!match){
-		 return res.status(401).send({ Message: 'Password is incorrect!'});
+		return res.status(401).send({ Message: 'Password is incorrect!'});
 	}
 
 	//const email = userEmail.email;
@@ -41,4 +41,6 @@ async (req, res) =>{
 		 role: role, 
 		 token: accessToken });
 
-});
+};
+
+module.exports = loginController;
