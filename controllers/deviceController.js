@@ -16,20 +16,20 @@ const deviceController = {
 		try{
 			 // const visitor = await Visitor.findOne({ where: { email }})
 			 // visitor.visitor_id =  visitor_id
-			 const device = await Device.create(newDevice)
-			 console.log(newDevice)
+			const device = await Device.create(newDevice)
+			// console.log(newDevice)
 			 // console.log(visitor_id)
-			 return res.status(201).send({ 
-					statusCode: 201,
-					message: 'Awesome, device added successfully!'
-			 })
+			return res.status(201).send({ 
+				statusCode: 201,
+				message: 'Awesome, device added successfully!'
+			})
 		}catch(err){
-			 console.log(err)
-			 return res.status(500).json(err)
+				console.log(err)
+				return res.status(500).json(err)
 		};
- },
+  },
 	
-	getDevice: async (req, res) => {
+	getDevices: async (req, res) => {
 		try {
 			const device = await Device.findAll({});
 			return res.status(200).send({
@@ -65,26 +65,26 @@ const deviceController = {
 			console.log(err)
 			return res.status(500).status(500).json(err)
 		}
- },
+  },
 
- 	deleteDevice: async (req, res) =>{
+	deleteDevice: async (req, res) =>{
 		const device_id = req.params.id
 		try {
-			 await Device.destroy({ where: { device_id } })
- 
-			 return res.status(200).send({
+			await Device.destroy({ where: { device_id } })
+
+			return res.status(200).send({
 					statusCode: 200,
 					message: "Device deleted successfully"
-			 });
+			});
 		
 		} catch(err){
-			 console.log(err)
-			 return res.status(500).send({
+				console.log(err)
+				return res.status(500).send({
 					statusCode: 500,
-					message: "Aww snag! Problem with deleting device. ", err 
-			 })
+					message: "Aww snag! Problem with deleting device.", err 
+			})
 		}
- };
+	},
 }
 
 module.exports = deviceController;
