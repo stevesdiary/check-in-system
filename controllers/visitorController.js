@@ -194,20 +194,20 @@ const visitorController = {
 		const { from, to } = req.body;
 		const visitor = await Visitor.findAll({ where: {
 			createdAt: 
-			 	Sequelize.literal(`createdAt BETWEEN '${from}' AND '${to}'`) 
+				Sequelize.literal(`createdAt BETWEEN '${from}' AND '${to}'`) 
 		} 
 		})    
 		try {
-			 if (visitor) {
-					// email = visitor.email
-					await Visitor.destroy({ where: { 
-						createdAt: 
-			 				Sequelize.literal(`createdAt BETWEEN '${from}' AND '${to}'`)
-					}})
-					return res.status(200).send({
-						statusCode: 200,
-						message: "Visitor profiles has been deleted successfully"
-					});
+			if (visitor) {
+				// email = visitor.email
+				await Visitor.destroy({ where: { 
+					createdAt: 
+						Sequelize.literal(`createdAt BETWEEN '${from}' AND '${to}'`)
+				}})
+				return res.status(200).send({
+					statusCode: 200,
+					message: "Visitor profiles has been deleted successfully"
+				});
 			}
 			if (!visitor) {
 				// console.log("Visitor profile not found for Id: " )
