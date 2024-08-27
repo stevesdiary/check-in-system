@@ -10,14 +10,13 @@ app.use(express.urlencoded({ extended: true }));
 const bcrypt = require('bcryptjs');
 const saltRounds = bcrypt.genSaltSync(11);
 
-router.post('/', async (req, res) => {
+const register = async (req, res) => {
    const admin_id = uuidv4()
-   const email = req.body.email;
-   const name = req.body.name;
-   const role = req.body.role;
-   const password = req.body.password;
+   const { name, email, password, confirmPassword, role } = req.body;
+   if (password !==  confirmPassword) {
+      return res.status(400).send('Password do not match!')
+   }
    const hashed = await bcrypt.hash(password, saltRounds)
-
    const admin = await Admin.findOne({
       where: {email: email},
       defaults: { 
@@ -26,11 +25,10 @@ router.post('/', async (req, res) => {
          role: role,
          password: hashed,
       }
-   }) 
-   try{
-      if(!email || !password || !role)return ("You need to enter the required fields.")
+   })
+      if(!(email || password || role || name))return ("You need to enter the required fields.")
       if(admin){
-         return res.status(400).send('User ' + email + ' already exists.');
+         return res.status(400).send(`User ${email} already exists, login with your email and password.`);
       }
       const newAdmin = await Admin.create({
       admin_id : admin_id,
@@ -40,12 +38,5 @@ router.post('/', async (req, res) => {
       role : role
    });
       return res.status(200).send('User: '+ email + ' has been created successfully.');
-   
-   }catch(err){
-      console.log(err)
-      return res.status(500).json({
-         message: 'Something broke!'
-      })
-   }
 })
-module.exports = router;
+module.exports = register;
