@@ -6,10 +6,10 @@ const jwt = require('jsonwebtoken');
 
 const resetPasswordController = async (req, res, next) => {
 	try{
-		 let {email } = req.body;
-		 const token = uuidv4();
-		 const options = {expiresIn: '12m'};
-		 const payload = {
+		  let {email } = req.body;
+		  const token = uuidv4();
+		  const options = {expiresIn: '12m'};
+		  const payload = {
 				email
 		 };
 		 const signedToken = jwt.sign(payload, process.env.JWT_SECRET, options);
