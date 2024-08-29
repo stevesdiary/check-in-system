@@ -4,7 +4,6 @@ const helmet = require('helmet');
 app.use(helmet());
 const {v4: uuidv4 } = require('uuid');
 const { Admin, Visitor, Device } = require('../models');
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const bcrypt = require('bcryptjs');
 const env = process.env.NODE_ENV || 'development';
@@ -55,8 +54,8 @@ const adminController = {
 		const mailOptions = {
 			from: process.env.SENDER_EMAIL,
 			to: email,
-			subject: 'Welcome to Aella check-in service',
-			html: `You have been registered on Aella check-in system, you can sign in with your email ${ email } and password here : ${process.env.LOGIN_URL}`
+			subject: 'Welcome to Visitor check-in service',
+			html: `You have been registered on Visitor check-in system as ${role}, you can sign in with your email ${ email } and password here : ${process.env.LOGIN_URL}`
 		};
 		await transporter.sendMail(mailOptions);
 			console.log('Profile created and Email sent');
@@ -140,10 +139,10 @@ const adminController = {
 				admin.role = role,
 				await admin.save()
 			
-				console.log( "Records of " + email + " has been updated successfully!")
+				console.log( `Records of ${first_name} has been updated successfully!`);
 				return res.status(200).send({
 					statusCode: 200,
-					message: "Records for " + email + " has been updated successfully!"
+					message: `Records for ${email} has been updated successfully!`
 				})
 			}else{
 			return res.status(404).send({ 
