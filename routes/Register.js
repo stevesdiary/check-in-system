@@ -5,6 +5,6 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const saltRounds = bcrypt.genSaltSync(11);
 
-router.post('/register', re);
+router.post('/register', );
 
 module.exports = router;
