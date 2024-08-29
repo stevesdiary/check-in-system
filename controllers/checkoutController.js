@@ -6,7 +6,6 @@ checkoutController = {
     try {
       const visitor_id = req.body.visitor_id;
       const departure = req.body.departure || moment().format('LT');
-
       if (departure !== undefined && departure !== null) {
         const visitor = await Visitor.findOne({ where: { visitor_id } });
         (visitor.departure = departure)
@@ -21,11 +20,11 @@ checkoutController = {
           visitor,
         });
       } else {
-        console.log("Unable to check out");
+        // console.log("Unable to check out");
         return res
           .status(500)
           .send({
-            Message: "An error occurred while checking out check the input time", 
+            Message: "An error occurred while checking out, please check the input time", 
             err
           });
       }
