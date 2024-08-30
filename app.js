@@ -5,14 +5,11 @@ const app = express();
 const cors = require('cors');
 const helmet = require('helmet');
 const signupRoute = require('./routes/Register');
-const visitorRoute = require('./routes/Visitor');
+const visitorRoute = require('./routes/visitor');
 const deviceRoute = require('./routes/Device');
 const adminRoute = require('./routes/Admin');
 const loginRoute = require('./routes/Login');
 const registerRoute = require('./routes/Register');
-const createVisitorRoute = require('./routes/createVisitor');
-const currentVisitorRoute = require('./routes/currentVisitor');
-const visitorHistoryRoute = require('./routes/visitorHistory');
 const checkOutRoute = require('./routes/checkOut');
 const photoRoute = require('./routes/photo');
 
@@ -37,9 +34,6 @@ app.use('/login', loginRoute);
 app.use('/register', registerRoute);
 app.use('/forgotPassword', forgotPasswordRoute);
 app.use('/resetPassword', resetPasswordRoute);
-app.use('/createvisitor', createVisitorRoute);
-app.use('/currentvisitor', currentVisitorRoute);
-app.use('/visitorhistory', visitorHistoryRoute);
 app.use('/checkOut', checkOutRoute);
 app.use('/photo', photoRoute);
 

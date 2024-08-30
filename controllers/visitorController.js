@@ -31,9 +31,9 @@ const visitorController = {
 			const result = await Visitor.create(newVisitor);
 		} catch (err) {
 			return res.status(500).send({
-					statusCode: 500,
-					message: "An error has occured, unable to create record.",
-					err,
+				statusCode: 500,
+				message: "An error has occured, unable to create record.",
+				err,
 			});
 		}
 		if (Array.isArray(devices)) {
@@ -89,75 +89,74 @@ const visitorController = {
 
 	currentVisitor: async (req, res) => {
 		try {
-			 const search = req.query.search;
-			 let name_purpose_search = []
-			 if (search) {
+			const search = req.query.search;
+			let name_purpose_search = []
+			if (search) {
 					name_purpose_search.push(
-						 {
-								[Op.or]: [
-									{ first_name: { [Op.like]: `%${search}%` } },
-									{ last_name: { [Op.like]: `%${search}%` } },
-									{ purpose: { [Op.like]: `%${search}%` } }
-								]
+						{
+							[Op.or]: [
+								{ first_name: { [Op.like]: `%${search}%` } },
+								{ last_name: { [Op.like]: `%${search}%` } },
+								{ purpose: { [Op.like]: `%${search}%` } }
+							]
 						},
 					)
-			 }
-			 const count = await Visitor.count({
-					where: {
-						departure: { [Op.eq]: null },
-					[Op.and]: [
-						...name_purpose_search
-					],
-					}
-			 });
-			 let per_page;
-			 if (count < 10) {
+			}
+			const count = await Visitor.count({
+				where: {
+					departure: { [Op.eq]: null },
+				[Op.and]: [
+					...name_purpose_search
+				],
+				}
+			});
+			let per_page;
+			if (count < 10) {
 					per_page = count
-			 } if (count > 9) {
+			} if (count > 9) {
 					per_page = 10
-			 }
-			 const page = parseInt(req.query.page) || 1;
+			}
+			const page = parseInt(req.query.page) || 1;
 			 const from = (page - 1) * per_page;
 			 const to = page * per_page;
-			 const total_pages = Math.ceil(count / per_page);
+			const total_pages = Math.ceil(count / per_page);
 
-			 let visitor = await Visitor.findAll({
-					where: {
-						departure: { [Op.eq]: null },
-					[Op.and]:  [
-						...name_purpose_search
-					],
-					},
-					include: [{
-						model: Device
-					}],
-					page: { [Op.eq]: `${page}` },
-					order: [
-						[Sequelize.fn('date', Sequelize.col('date')), 'DESC'],
-						[Sequelize.fn('time', Sequelize.col('arrival')), 'DESC']
-					],
-			 })
-			 if (page) {
-					visitor = visitor.slice((10 * page) - 10, 10 * page)
-			 }
-			 // console.log(visitor)
-			 if (visitor.length > 0){
-			 return res.status(200).send({
-					statusCode: 200,
-					page: page,
-					per_page: per_page,
-					total_records: count,
-					total_pages: total_pages,
-					showing_from: from + 1,
-					to: to,
-					visitor: visitor
-			 })
+			let visitor = await Visitor.findAll({
+				where: {
+					departure: { [Op.eq]: null },
+				[Op.and]:  [
+					...name_purpose_search
+				],
+				},
+				include: [{
+					model: Device
+				}],
+				page: { [Op.eq]: `${page}` },
+				order: [
+					[Sequelize.fn('date', Sequelize.col('date')), 'DESC'],
+					[Sequelize.fn('time', Sequelize.col('arrival')), 'DESC']
+				],
+			})
+			if (page) {
+				visitor = visitor.slice((10 * page) - 10, 10 * page)
+			
+			if (visitor.length > 0){
+			return res.status(200).send({
+				statusCode: 200,
+				page: page,
+				per_page: per_page,
+				total_records: count,
+				total_pages: total_pages,
+				showing_from: from + 1,
+				to: to,
+				visitor: visitor
+			})
 
-			 }if (count === 0){
-					return res.status(200).send({
-						message: 'No record found for this request',
-					})
-			 }
+			}if (count === 0){
+				return res.status(404).send({
+					message: 'No record found for this request',
+				})
+			}
 		} catch (err) {
 			console.log(err)
 			return res.status(500).send({ message: err.message })
@@ -165,10 +164,9 @@ const visitorController = {
   },
 
 	deleteVistor: async (req, res) => {
-		const visitor_id = req.params.id
-		const visitor = await Visitor.findOne({ where: { visitor_id } })
-		email = visitor.email
-		// console.log(email, visitor_id)
+		const visitor_id = req.params.id;
+		const visitor = await Visitor.findOne({ where: { visitor_id } });
+		email = visitor.email;
 		try {
 			if (visitor) {
 					email = visitor.email
@@ -178,15 +176,15 @@ const visitorController = {
 						statusCode: 200,
 						message: "Visitor profile for id: " + visitor_id + " has been deleted successfully"
 					});
-			 }
-			 if (!visitor) {
+			}
+			if (!visitor) {
 					console.log("Visitor profile not found for Id: " + visitor_id)
 					return res.status(404).send("Visitor profile not found for Id: " + visitor_id)
-			 }
+			}
 		} catch (err) {
-			 email = visitor.email
-			 console.log(err)
-			 return res.status(500).send("Problem with deleting record of " + email);
+			email = visitor.email
+			console.log(err)
+			return res.status(500).send("Problem with deleting record of " + email);
 		};
 	},
 
@@ -194,23 +192,22 @@ const visitorController = {
 		const { from, to } = req.body;
 		const visitor = await Visitor.findAll({ where: {
 			createdAt: 
-			 	Sequelize.literal(`createdAt BETWEEN '${from}' AND '${to}'`) 
+				Sequelize.literal(`createdAt BETWEEN '${from}' AND '${to}'`) 
 		} 
 		})    
 		try {
-			 if (visitor) {
-					// email = visitor.email
-					await Visitor.destroy({ where: { 
-						createdAt: 
-			 				Sequelize.literal(`createdAt BETWEEN '${from}' AND '${to}'`)
-					}})
-					return res.status(200).send({
-						statusCode: 200,
-						message: "Visitor profiles has been deleted successfully"
-					});
+			if (visitor) {
+				// email = visitor.email
+				await Visitor.destroy({ where: { 
+					createdAt: 
+						Sequelize.literal(`createdAt BETWEEN '${from}' AND '${to}'`)
+				}})
+				return res.status(200).send({
+					statusCode: 200,
+					message: "Visitor profiles has been deleted successfully"
+				});
 			}
 			if (!visitor) {
-				// console.log("Visitor profile not found for Id: " )
 				return res.status(404).send("Visitor records not found" )
 			}
 		} catch (err) {
