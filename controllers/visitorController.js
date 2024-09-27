@@ -139,7 +139,7 @@ const visitorController = {
 			})
 			if (page) {
 				visitor = visitor.slice((10 * page) - 10, 10 * page)
-			
+			}
 			if (visitor.length > 0){
 			return res.status(200).send({
 				statusCode: 200,
