@@ -7,7 +7,7 @@ const deviceController = {
 		const gadget_type = req.body.gadget_type
 		const serial_number = req.body.serial_number
 		const product_name = req.body.product_name
-		const device_id = uuidv4()
+		const device_id = uuid()
 		newDevice.gadget_type= gadget_type
 		newDevice.product_name = product_name
 		newDevice.serial_number= serial_number
@@ -45,16 +45,16 @@ const deviceController = {
 		const {gadget_type, visitor_id, product_name, serial_number} = req.body
 		try{
 			const device = await Device.findOne({ where: { device_id }})
-					device.visitor_id = visitor_id
-					device.gadget_type = gadget_type
-					device.product_name = product_name
-					device.serial_number = serial_number
-					await device.save()
+				device.visitor_id = visitor_id
+				device.gadget_type = gadget_type
+				device.product_name = product_name
+				device.serial_number = serial_number
+				await device.save()
 			
 			// console.log("Device updated successfully ")
 			return res.status(200).send({
-					statusCode: 200,
-					message: "Device updated successfully"
+				statusCode: 200,
+				message: "Device updated successfully"
 			})
 			
 		}catch(err){
@@ -69,8 +69,8 @@ const deviceController = {
 			await Device.destroy({ where: { device_id } })
 
 			return res.status(200).send({
-					statusCode: 200,
-					message: "Device deleted successfully"
+				statusCode: 200,
+				message: "Device deleted successfully"
 			});
 		
 		} catch(err){
