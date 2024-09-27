@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   Visitor.init(
     {
       visitor_id: {
-        type: DataTypes.UUIDV4,
+        type: DataTypes.UUID,
         primaryKey: true,
         type: DataTypes.UUIDV4,
       },
