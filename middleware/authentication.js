@@ -19,7 +19,6 @@ const authentication = async (req, res, next) => {
       if(decoded.UserInfo){
          req.user = decoded.UserInfo.email;
          req.roles = decoded.UserInfo.role;
-         // console.log("user role ", req.roles, req.user);
          next();
       }else{
          res.status(403).send({
