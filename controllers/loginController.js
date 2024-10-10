@@ -10,8 +10,8 @@ const loginController = async (req, res) =>{
 
 	if(!userEmail){
 		return res.status(404).send({ Message: 'Email not found!'});
-		const match = await bcrypt.compare(password, userEmail.password);
 	}
+	const match = await bcrypt.compare(password, userEmail.password);
 	if (!match){
 		return res.status(401).send({ Message: 'Password is incorrect!'});
 	}
